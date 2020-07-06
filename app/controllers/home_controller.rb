@@ -17,13 +17,7 @@ class HomeController < ApplicationController
 	end
 	
 	def update
-		post = Post.find(params[:id])
-		post.title = params[:title]
-		post.content = params[:content]
-	end
-	
-	def modify
-		post = Post.find(params[:id])
+		post = Post.find(params[:post_id])
 		post.title = params[:title]
 		post.content = params[:content]
 		post.save
@@ -31,8 +25,18 @@ class HomeController < ApplicationController
 		redirect_to '/index'
 	end
 	
+	def modify
+		@post = Post.find(params[:post_id])
+	end
+	
 	def delete
 		Post.destroy(params[:id])
+		
+		redirect_to '/index'
+	end
+	
+	def comment
+		Comment.create(post_id: params[:post_id], msg: params[:comment])
 		redirect_to '/index'
 	end
 	
